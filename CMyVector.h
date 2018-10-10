@@ -15,6 +15,16 @@ public:
 		this->aArray = new T[this->nSize];
 	}
 
+	~CMyVector()
+	{
+		if (this->aArray != NULL)
+		{
+			ZeroMemory(this->aArray, this->nSize);
+		}
+		this->nSize = 0;
+		this->aArray = new T[this->nSize];
+	}
+
 	void push_back(T Data)
 	{
 		T *Result = new T[++this->nSize];
@@ -60,61 +70,61 @@ public:
 		return this->nSize;
 	}
 
-	void pushIndex(T data, int index)
+	void pushIndex(T data, int nIndex)
 	{
-		int oldSize = this->nSize;
+		int nOldSize = this->nSize;
 
-		if (this->nSize >= index)
+		if (this->nSize >= nIndex)
 		{
 			this->nSize = ++this->nSize;
 		}
 		else
 		{
-			this->nSize = this->nSize + (index - this->nSize);
+			this->nSize = this->nSize + (nIndex - this->nSize);
 		}
 
-		T *_result = new T[this->nSize];
+		T *pResult = new T[this->nSize];
 
-		int arrIndex = 0;
+		int nArrayIndex = 0;
 
-		for (int index2 = 0; index2 < this->nSize; index2++)
+		for (int nResultArrayIndex = 0; nResultArrayIndex < this->nSize; nResultArrayIndex++)
 		{
-			if (index2 == index)
+			if (nResultArrayIndex == nIndex)
 			{
-				_result[index2] = data;
+				pResult[nResultArrayIndex] = data;
 				continue;
 			}
 
-			if (arrIndex != oldSize)
+			if (nArrayIndex != nOldSize)
 			{
-				_result[index2] = this->aArray[arrIndex++];
+				pResult[nResultArrayIndex] = this->aArray[nArrayIndex++];
 			}
 		}
 		delete[] this->aArray;
-		this->aArray = _result;
+		this->aArray = pResult;
 	}
 
-	T popIndex(int index)
+	T popIndex(int nIndex)
 	{
-		T *_result = new T[--this->nSize];
+		T *pResult = new T[--this->nSize];
 
 		T resItem;
 
-		int resIndex = 0;
+		int nResIndex = 0;
 
-		for (int index2 = 0; index2 < this->nSize + 1; index2++)
+		for (int nResultArrayIndex = 0; nResultArrayIndex < this->nSize + 1; nResultArrayIndex++)
 		{
-			T item = this->aArray[index2];
+			T item = this->aArray[nResultArrayIndex];
 
-			if (index == index2)
+			if (nIndex == nResultArrayIndex)
 			{
 				resItem = item;
 				continue;
 			}
-			_result[resIndex++] = this->aArray[index2];
+			pResult[nResIndex++] = this->aArray[nResultArrayIndex];
 		}
 		delete[] this->aArray;
-		this->aArray = _result;
+		this->aArray = pResult;
 		return resItem;
 	}
 };
